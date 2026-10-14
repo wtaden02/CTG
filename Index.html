@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIT Support Center — Basic Troubleshooting Guides</title>
+<style>
+:root{--blue:#2563eb;--blue2:#1d4ed8;--bg:#f4f7fb;--surface:#fff;--surface2:#f8fafc;--text:#172033;--muted:#64748b;--border:#e2e8f0;--danger:#dc2626;--danger-bg:#fff1f2;--shadow:0 12px 35px rgba(15,23,42,.08)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+.app{min-height:100vh;background:linear-gradient(180deg,#eff6ff 0,#f8fafc 300px,var(--bg) 100%)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f3b91,#2563eb 55%,#0ea5e9);color:white;padding:42px 24px 54px}
+.hero:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-150px;top:-220px;background:rgba(255,255,255,.1)}
+.hero-inner{max-width:1180px;margin:auto;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:22px;font-weight:700;letter-spacing:.02em}
+.brand-mark{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+h1{font-size:clamp(2rem,4vw,3.1rem);margin:0 0 8px;letter-spacing:-.04em}
+.hero p{margin:0;color:#dbeafe;max-width:720px;font-size:1.05rem}
+.search-wrap{max-width:1180px;margin:-27px auto 0;padding:0 24px;position:relative;z-index:3}
+.search{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:16px;padding:14px 18px;display:flex;align-items:center;gap:12px}
+.search svg{color:var(--muted);flex:none}
+.search input{border:0;outline:0;width:100%;font:inherit;font-size:1rem;color:var(--text);background:transparent}
+.content{max-width:1180px;margin:auto;padding:28px 24px 60px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:10px 0 25px;flex-wrap:wrap}
+.toolbar h2{margin:0;font-size:1.15rem}
+.count{color:var(--muted);font-size:.9rem}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter{border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 12px;cursor:pointer;font-weight:600}
+.filter.active{background:#dbeafe;border-color:#93c5fd;color:#1d4ed8}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{border:1px solid var(--border);background:rgba(255,255,255,.92);border-radius:18px;padding:20px;text-align:left;cursor:pointer;box-shadow:0 4px 15px rgba(15,23,42,.04);transition:.2s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-3px);border-color:#93c5fd;box-shadow:0 14px 30px rgba(37,99,235,.12)}
+.card:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.icon{width:46px;height:46px;border-radius:14px;background:#eff6ff;color:var(--blue);display:grid;place-items:center;font-size:22px}
+.num{font-size:.78rem;font-weight:800;color:#94a3b8}
+.card h3{margin:0 0 6px;font-size:1rem}
+.card p{margin:0;color:var(--muted);font-size:.88rem}
+.card .arrow{position:absolute;right:20px;bottom:18px;color:#94a3b8}
+.empty{display:none;text-align:center;padding:50px;color:var(--muted);grid-column:1/-1}
+.hidden{display:none!important}
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(5px);display:flex;justify-content:center;align-items:center;padding:18px;opacity:0;pointer-events:none;transition:.2s;z-index:20}
+.overlay.active{opacity:1;pointer-events:auto}
+.modal{width:min(1026px,100%);height:min(684px,88vh);background:var(--surface);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden;animation:up .22s ease}
+@keyframes up{from{transform:translateY(18px);opacity:.7}to{transform:none;opacity:1}}
+.modal-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:15px}
+.modal-title{margin:0;font-size:1.3rem}
+.close{border:0;background:var(--surface2);color:var(--muted);width:38px;height:38px;border-radius:10px;font-size:1.5rem;cursor:pointer}
+.modal-body{padding:24px;overflow:auto;flex:1}
+.modal-body ul,.modal-body ol{padding-left:22px}
+.modal-body li{margin:0 0 12px}
+.modal-body code{background:#eef2ff;color:#3730a3;padding:3px 6px;border-radius:6px;font-size:.9em}
+.modal-body strong{color:#111827}
+.note{margin-top:20px;background:var(--danger-bg);border-left:4px solid var(--danger);padding:13px 15px;border-radius:0 10px 10px 0;color:#991b1b}
+.modal-foot{border-top:1px solid var(--border);padding:11px 22px;color:#94a3b8;font-size:.8rem;text-align:right}
+.section-title{margin:18px 0 8px;text-transform:uppercase;letter-spacing:.06em;font-size:.8rem;color:#475569;font-weight:800}
+.modal-body img{width:90%;max-width:100%;max-height:none;height:auto;display:block;margin:0 auto 16px;border-radius:10px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.hero{padding:30px 18px 46px}.content{padding:22px 16px 45px}.search-wrap{padding:0 16px}.grid{grid-template-columns:1fr}.card{padding:17px}.modal-body{padding:19px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand"><div class="brand-mark">🛠️</div><span>BIT Support Center</span></div>
+    <h1>Basic Troubleshooting Guides</h1>
+    <p>Quick, practical troubleshooting steps to try before calling Customer Care or creating a support ticket. End-user guides escalate by calling 248. Customer Care guides escalate with a Tier 2 ticket.</p>
+  </div>
+</header>
+<div class="search-wrap">
+  <label class="search" aria-label="Search troubleshooting guides">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+    <input id="search" type="search" placeholder="Search a troubleshooting guide..." autocomplete="off">
+  </label>
+</div>
+<main class="content">
+  <div class="toolbar">
+    <div>
+      <h2>Support Guides</h2>
+      <div class="count" id="count">10 guides available</div>
+    </div>
+    <div class="filters" role="group" aria-label="Filter guides">
+      <button class="filter active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter" data-filter="end" aria-pressed="false">End Users</button>
+      <button class="filter" data-filter="care" aria-pressed="false">Customer Care</button>
+    </div>
+  </div>
+  <section class="grid" id="cards">
+    <button class="card" data-category="end" data-search="Blank or Black Display Monitor Check power monitor status video signal" data-guide="blank-monitor" data-title="Blank or Black Display (Monitor)">
+      <div class="card-top"><div class="icon">🖥️</div><span class="num">GUIDE 01</span></div>
+      <h3>Blank or Black Display (Monitor)</h3>
+      <p>Check power, monitor status, and video signal.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="end" data-search="Keyboard Not Responding Check ports power Filter Keys drivers" data-guide="keyboard-issues" data-title="Keyboard Not Responding">
+      <div class="card-top"><div class="icon">⌨️</div><span class="num">GUIDE 02</span></div>
+      <h3>Keyboard Not Responding</h3>
+      <p>Check ports, power, Filter Keys, and drivers.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="end" data-search="Mouse Not Working Check connection batteries sensor driver" data-guide="mouse-issues" data-title="Mouse Not Working">
+      <div class="card-top"><div class="icon">🖱️</div><span class="num">GUIDE 03</span></div>
+      <h3>Mouse Not Working</h3>
+      <p>Check connection, batteries, sensor, and driver.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="end" data-search="No Sound output volume audio driver" data-guide="no-sound" data-title="No Sound">
+      <div class="card-top"><div class="icon">🔊</div><span class="num">GUIDE 04</span></div>
+      <h3>No Sound</h3>
+      <p>Check output device, volume, and audio driver.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="end" data-search="Forgotten Password password reset Customer Care" data-guide="forgotten-password" data-title="Forgotten Password">
+      <div class="card-top"><div class="icon">🔐</div><span class="num">GUIDE 05</span></div>
+      <h3>Forgotten Password</h3>
+      <p>Contact Customer Care for an authorized reset.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="end" data-search="Accidentally Deleted Files recycle bin cloud recovery" data-guide="deleted-files" data-title="Accidentally Deleted Files">
+      <div class="card-top"><div class="icon">🗑️</div><span class="num">GUIDE 06</span></div>
+      <h3>Accidentally Deleted Files</h3>
+      <p>Restore from Recycle Bin, backups, or recovery tools.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="care" data-search="Printer Cannot Print application hardware print jobs network ports" data-guide="printer-not-printing" data-title="Printer Cannot Print">
+      <div class="card-top"><div class="icon">🖨️</div><span class="num">GUIDE 07</span></div>
+      <h3>Printer Cannot Print</h3>
+      <p>Check applications, hardware, print jobs, network, and ports.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="care" data-search="No Internet Connection Local LAN WAN" data-guide="no-internet" data-title="No Internet Connection">
+      <div class="card-top"><div class="icon">🌐</div><span class="num">GUIDE 08</span></div>
+      <h3>No Internet Connection</h3>
+      <p>Identify whether the problem is Local, LAN, or WAN.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="care" data-search="Printer Sharing Issues shared computer drivers test print" data-guide="printer-sharing" data-title="Printer Sharing Issues">
+      <div class="card-top"><div class="icon">📡</div><span class="num">GUIDE 09</span></div>
+      <h3>Printer Sharing Issues</h3>
+      <p>Verify shared computer visibility, drivers, and test printing.</p>
+      <span class="arrow">→</span>
+    </button>
+    <button class="card" data-category="care" data-search="Slow Internet Wi-Fi Ethernet latency bandwidth DNS router modem" data-guide="slow-internet" data-title="Slow Internet Connection">
+      <div class="card-top"><div class="icon">⚡</div><span class="num">GUIDE 10</span></div>
+      <h3>Slow Internet Connection</h3>
+      <p>Check Wi-Fi, latency, bandwidth, DNS, and network hardware.</p>
+      <span class="arrow">→</span>
+    </button>
+    <div class="empty" id="empty">No troubleshooting guides match your search.</div>
+  </section>
+</main>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <h2 class="modal-title" id="modalTitle">Troubleshooting Steps</h2>
+      <button class="close" id="closeBtn" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">Press <kbd>Esc</kbd> or click outside to close</div>
+  </div>
+</div>
+
+<div id="repository" class="hidden">
+  <div id="blank-monitor">
+    <img src="1.png" alt="Blank or black display">
+    <p><strong>Check Power and Lights:</strong> Look closely at the small indicator light (LED) on the corner of the monitor.</p>
+    <ul>
+      <li><strong>Light completely off:</strong> Check the power cord at the monitor and wall outlet, and verify the physical power button is on.</li>
+      <li><strong>Light amber or blinking:</strong> The monitor has power but no video signal. Make sure the computer is turned on and awake.</li>
+      <li><strong>Re-seat the video cable:</strong> Unplug HDMI/DisplayPort from both ends, wait 5 seconds, and reconnect firmly. If a graphics card is installed, use its ports rather than the motherboard ports.</li>
+      <li><strong>Wake the graphics driver:</strong> Press <code>Windows + Ctrl + Shift + B</code>. The screen may flicker and beep.</li>
+      <li><strong>Test the monitor menu:</strong> If the built-in menu appears, the monitor works and the cable or computer should be checked. If no menu appears, the monitor may have failed.</li>
+    </ul>
+    <div class="note">If it still has a blank or black screen, call <strong>Customer Care</strong> by dialling 248.</div>
+  </div>
+  <div id="keyboard-issues">
+    <img src="2.png" alt="Keyboard not responding">
+    <ul>
+      <li><strong>Swap USB Ports:</strong> Connect the keyboard to a different USB port.</li>
+      <li><strong>Refresh Power:</strong> Replace wireless batteries or toggle the physical power switch off and on.</li>
+      <li><strong>Turn Off Filter Keys:</strong> Hold Right Shift for 8 seconds to disable accidental typing delays.</li>
+      <li><strong>Reinstall Driver:</strong> In Device Manager, uninstall the keyboard component, then reconnect it.</li>
+    </ul>
+    <div class="note">If the keyboard is still not working, call <strong>Customer Care</strong> by dialling 248.</div>
+  </div>
+  <div id="mouse-issues">
+    <img src="3.png" alt="Mouse not working">
+    <ul>
+      <li><strong>Swap USB Ports:</strong> Connect the mouse to a different working USB port.</li>
+      <li><strong>Cycle the Power:</strong> Replace wireless batteries or toggle the power switch off and on.</li>
+      <li><strong>Clean the Sensor:</strong> Remove dust, dirt, or hair from the optical sensor.</li>
+      <li><strong>Reinstall Driver:</strong> Press <code>Win + X</code>, open Device Manager, uninstall the mouse, and reconnect it.</li>
+    </ul>
+    <div class="note">If the mouse is still not working, call <strong>Customer Care</strong> by dialling 248.</div>
+  </div>
+  <div id="no-sound">
+    <img src="4.png" alt="No sound">
+    <ul>
+      <li><strong>Check Physical Volume:</strong> Reconnect speakers or headphones and verify physical volume knobs.</li>
+      <li><strong>Select the Output Device:</strong> Click the speaker icon in the taskbar and choose the correct playback device.</li>
+      <li><strong>Unmute the System:</strong> Check the taskbar volume slider and ensure the master volume is not muted.</li>
+      <li><strong>Update Audio Driver:</strong> Press <code>Win + X</code>, open Device Manager, right-click the primary audio driver, and select <em>Update driver</em>.</li>
+    </ul>
+    <div class="note">If there is still no sound, call <strong>Customer Care</strong> by dialling 248.</div>
+  </div>
+  <div id="forgotten-password">
+    <div class="note"><strong>Please call Customer Care by dialling 248 directly.</strong> They are the only ones authorized and able to reset security passwords for your account.</div>
+  </div>
+  <div id="deleted-files">
+    <img src="6.png" alt="Accidentally deleted files">
+    <ul>
+      <li><strong>Check the Recycle Bin:</strong> Open Recycle Bin (or Trash on Mac), right-click the missing file, and select <em>Restore</em>.</li>
+      <li><strong>Undo the Deletion:</strong> Immediately press <code>Ctrl + Z</code> (or <code>Cmd + Z</code> on Mac).</li>
+      <li><strong>Check Cloud Backups:</strong> Check OneDrive, Google Drive, or Dropbox version histories and trash folders.</li>
+      <li><strong>Run Recovery Software:</strong> Use Windows File Recovery or Recuva to attempt data recovery.</li>
+    </ul>
+    <div class="note">If you still cannot recover the files, the file may be permanently gone.</div>
+  </div>
+  <div id="printer-not-printing">
+    <img src="7.png" alt="Printer cannot print">
+    <ol>
+      <li><strong>Try another app:</strong> Ask what program they are printing from and test another application.</li>
+      <li><strong>Get the ID and remote in:</strong> Ask for the BITS sticker number and remote into the computer.</li>
+      <li><strong>Check the printer hardware:</strong> Check the printer screen for paper jams, low toner, power, or other errors.</li>
+      <li><strong>Clear stuck print jobs:</strong> Open <code>services.msc</code>, stop Print Spooler, clear the PRINTERS folder, then restart the service.</li>
+      <li><strong>Test the network connection:</strong> For a network printer, ping its IP address from Command Prompt.</li>
+      <li><strong>Fix the printer port:</strong> In Printer Properties → Ports, use a Standard TCP/IP Port with the correct static IP rather than WSD.</li>
+      <li><strong>Print directly from the machine:</strong> Print a Test/Configuration page using the printer's physical controls.</li>
+      <li><strong>Remote inspection:</strong> If needed, ask for the BITS sticker number and remote in for further investigation.</li>
+    </ol>
+    <div class="note">If it still cannot print, create a ticket to escalate the issue to <strong>Tier 2.</strong></div>
+  </div>
+  <div id="no-internet">
+    <img src="8.png" alt="No internet connection">
+    <div class="section-title">Isolate where the break is</div>
+    <p>When the internet drops, find out whether the failure is on this computer, the office network, or the ISP.</p>
+    <ul>
+      <li><strong>Local:</strong> Is it only this computer? Check the network cable or Wi-Fi, then try another device on the same connection.</li>
+      <li><strong>LAN:</strong> Do other computers in the office also fail? If yes, check the switch, access point, or office router.</li>
+      <li><strong>WAN:</strong> Does every device fail, including a wired connection at the router? The ISP link may be down.</li>
+      <li><strong>Quick tests:</strong> Confirm the adapter is enabled, release and renew the IP address, then ping the gateway and <code>8.8.8.8</code>.</li>
+    </ul>
+    <div class="note">If the issue remains, create a ticket to escalate the issue to <strong>Tier 2.</strong> A blank monitor is a separate problem — use Guide 01.</div>
+  </div>
+  <div id="printer-sharing">
+    <img src="9.png" alt="Printer sharing issues">
+    <ol>
+      <li>Ask for the BITS sticker of the printer, the computer to be shared, and the source computer.</li>
+      <li>Check Network on the source computer to verify visibility of the shared computer.</li>
+      <li>Check whether the printer is already installed on the source system.</li>
+      <li>If not installed, download and install the proper printer driver.</li>
+      <li>Perform a test print to confirm functionality.</li>
+    </ol>
+    <div class="note">If it cannot print, create a ticket to escalate the issue to <strong>Tier 2.</strong></div>
+  </div>
+  <div id="slow-internet">
+    <img src="10.png" alt="Slow internet connection">
+    <ul>
+      <li><strong>Differentiate Wi-Fi vs. Ethernet:</strong> Test wired against wireless to rule out local RF interference or channel congestion.</li>
+      <li><strong>Measure latency and jitter:</strong> Run <code>ping -t [Gateway_IP]</code> and <code>ping -t 8.8.8.8</code> to see whether spikes are inside the building or on the ISP network.</li>
+      <li><strong>Check local network usage:</strong> Use Task Manager on Windows or Activity Monitor on Mac to find processes consuming bandwidth.</li>
+      <li><strong>Test DNS response time:</strong> Consider Cloudflare DNS <code>1.1.1.1</code> if pages take a long time to begin loading.</li>
+      <li><strong>Power cycle hardware:</strong> Unplug the modem and router for 30 seconds, then reconnect.</li>
+    </ul>
+    <div class="note">If the connection is still slow, create a ticket to escalate the issue to <strong>Tier 2.</strong></div>
+  </div>
+</div>
+
+<script>
+const overlay = document.getElementById("overlay");
+const modalBody = document.getElementById("modalBody");
+const modalTitle = document.getElementById("modalTitle");
+const search = document.getElementById("search");
+const count = document.getElementById("count");
+const empty = document.getElementById("empty");
+const closeBtn = document.getElementById("closeBtn");
+let activeFilter = "all";
+let lastTrigger = null;
+
+function openPopup(id, title, trigger) {
+  const source = document.getElementById(id);
+  if (!source) return;
+  lastTrigger = trigger || null;
+  modalTitle.textContent = title;
+  modalBody.innerHTML = source.innerHTML;
+  overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+  modalBody.scrollTop = 0;
+  closeBtn.focus();
+}
+
+function closePopup() {
+  if (!overlay.classList.contains("active")) return;
+  overlay.classList.remove("active");
+  document.body.style.overflow = "";
+  if (lastTrigger) lastTrigger.focus();
+}
+
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) closePopup();
+});
+closeBtn.addEventListener("click", closePopup);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closePopup();
+});
+
+document.querySelectorAll(".card").forEach((card) => {
+  card.addEventListener("click", () => {
+    openPopup(card.dataset.guide, card.dataset.title, card);
+  });
+});
+
+function filterCards() {
+  const q = search.value.trim().toLowerCase();
+  let visible = 0;
+  document.querySelectorAll(".card").forEach((card) => {
+    const show = (activeFilter === "all" || card.dataset.category === activeFilter)
+      && card.dataset.search.toLowerCase().includes(q);
+    card.classList.toggle("hidden", !show);
+    if (show) visible++;
+  });
+  count.textContent = visible + " guide" + (visible === 1 ? "" : "s") + " available";
+  empty.style.display = visible ? "none" : "block";
+}
+
+search.addEventListener("input", filterCards);
+document.querySelectorAll(".filter").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter").forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-pressed", "false");
+    });
+    btn.classList.add("active");
+    btn.setAttribute("aria-pressed", "true");
+    activeFilter = btn.dataset.filter;
+    filterCards();
+  });
+});
+</script>
+</body>
+</html>
